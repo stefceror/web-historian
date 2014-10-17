@@ -21,14 +21,26 @@ exports.initialize = function(pathsObj){
     exports.paths[type] = path;
   });
 };
-
+//site assests - Our Stuff
+//archived - Archives
+//list - list of keys/sites we have already
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
+exports.readListOfUrls = function(callback){
+  fs.readFile(exports.paths.list, function(err, data){
+    if (err){
+      console.log('ReadListofUrls: ' + err);
+    }else{
+      callback(data);
+    }
+  });
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(targetPath, listData){
+  return listData.toString().split("\n").some(function(site){
+    return site === targetPath.slice(1);
+  });
 };
 
 exports.addUrlToList = function(){
